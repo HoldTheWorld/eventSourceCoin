@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>КУРС БИТКА</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="stars"></div>
+<div class="twinkling"></div>
+<div class="container">
+    <h1 class="title">КУРС БИТКА ОНЛАЙН</h1>
+    <div id="data" class="price-display"></div>
+</div>
+<div class="rocket"></div>
+
+<script>
+    const eventSource = new EventSource("http://localhost:8080/stream");
+    const dataElem = document.getElementById("data");
+    eventSource.onmessage = (message) => {
+        dataElem.innerText = message.data;
+    }
+    eventSource.addEventListener("end-of-stream", () => {
+        console.log("End of stream!");
+        eventSource.close();
+    });
+</script>
+</body>
+</html>
