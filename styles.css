@@ -67,65 +67,97 @@ body {
     100% { transform: scale(1); }
 }
 
+.button-container {
+    margin-top: 20px;
+}
+
+button {
+    background: #0ff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    color: #000;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #0aa;
+}
+
 .rocket {
     width: 50px;
-    height: 100px;
+    height: 150px;
     position: absolute;
-    bottom: -100px;
+    bottom: -150px;
     left: 50%;
     transform: translateX(-50%);
     animation: rocketLaunch 5s infinite;
     z-index: 3;
 }
 
-.rocket::before, .rocket::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-}
-
-.rocket::before {
-    width: 0;
-    height: 0;
-    border-left: 25px solid transparent;
-    border-right: 25px solid transparent;
-    border-top: 50px solid #ff4d4d;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.rocket::after {
-    width: 50px;
-    height: 50px;
-    background: #fff;
-    border-radius: 50% 50% 0 0;
-    left: 0;
-}
-
 .rocket-body {
     width: 50px;
     height: 100px;
-    background: #333;
+    background: #ff4d4d;
     position: relative;
-    border-radius: 50% 50% 0 0;
-    overflow: hidden;
+    border-radius: 25px 25px 0 0;
 }
 
-.rocket-window {
+.fin {
+    width: 15px;
+    height: 30px;
+    background: #ff4d4d;
+    position: absolute;
+    bottom: -10px;
+}
+
+.fin-left {
+    left: -15px;
+    transform: rotate(-30deg);
+}
+
+.fin-right {
+    right: -15px;
+    transform: rotate(30deg);
+}
+
+.window {
     width: 20px;
     height: 20px;
-    background: #00f;
+    background: #fff;
     border-radius: 50%;
     position: absolute;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
+    border: 2px solid #000;
+}
+
+.exhaust-flame {
+    width: 10px;
+    height: 30px;
+    background: linear-gradient(to bottom, #ffa500, #ff4500);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 0 0;
+    animation: flameFlicker 0.5s infinite;
 }
 
 @keyframes rocketLaunch {
-    0% { bottom: -100px; transform: translateX(-50%) rotate(0deg); }
+    0% { bottom: -150px; transform: translateX(-50%) rotate(0deg); }
     25% { bottom: 30%; transform: translateX(-50%) rotate(-5deg); }
     50% { bottom: 60%; transform: translateX(-50%) rotate(0deg); }
     75% { bottom: 90%; transform: translateX(-50%) rotate(5deg); }
     100% { bottom: 100%; transform: translateX(-50%) rotate(0deg); }
+}
+
+@keyframes flameFlicker {
+    0% { height: 30px; opacity: 1; }
+    50% { height: 20px; opacity: 0.8; }
+    100% { height: 30px; opacity: 1; }
 }

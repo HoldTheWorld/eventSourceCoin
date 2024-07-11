@@ -9,21 +9,54 @@
 <div class="stars"></div>
 <div class="twinkling"></div>
 <div class="container">
-    <h1 class="title">КУРС БИТКА ОНЛАЙН</h1>
+    <h1 class="title" id="title">КУРС БИТКА ОНЛАЙН</h1>
     <div id="data" class="price-display"></div>
+    <div class="button-container">
+        <button onclick="changeCoin(90)">Bitcoin</button>
+        <button onclick="changeCoin(80)">Ethereum</button>
+        <button onclick="changeCoin(2710)">Binance Coin</button>
+        <button onclick="changeCoin(48543)">Solana</button>
+        <button onclick="changeCoin(33285)">USDC Coin</button>
+    </div>
 </div>
-<div class="rocket"></div>
+<div class="rocket">
+    <div class="rocket-body">
+        <div class="fin fin-left"></div>
+        <div class="fin fin-right"></div>
+        <div class="window"></div>
+    </div>
+    <div class="exhaust-flame"></div>
+</div>
 
 <script>
-    const eventSource = new EventSource("http://localhost:8080/stream");
+    let eventSource;
     const dataElem = document.getElementById("data");
-    eventSource.onmessage = (message) => {
-        dataElem.innerText = message.data;
+    const titleElem = document.getElementById("title");
+
+    const coinNames = {
+        90: { fullName: 'КУРС BITCOIN ОНЛАЙН', shortName: 'BTC' },
+        80: { fullName: 'КУРС ETHEREUM ОНЛАЙН', shortName: 'ETH' },
+        2710: { fullName: 'КУРС BINANCE-COIN ОНЛАЙН', shortName: 'BNB' },
+        48543: { fullName: 'КУРС SOLANA ОНЛАЙН', shortName: 'SOL' },
+        33285: { fullName: 'КУРС USDC-COIN ОНЛАЙН', shortName: 'USDC' }
+    };
+
+    function changeCoin(coinId) {
+        if (eventSource) {
+            eventSource.close();
+        }
+        titleElem.innerText = coinNames[coinId].fullName;
+        eventSource = new EventSource(`http://localhost:8080/stream?coinId=${coinId}`);
+        eventSource.onmessage = (message) => {
+            dataElem.innerText = message.data;
+        }
+        eventSource.addEventListener("end-of-stream", () => {
+            console.log("End of stream!");
+            eventSource.close();
+        });
     }
-    eventSource.addEventListener("end-of-stream", () => {
-        console.log("End of stream!");
-        eventSource.close();
-    });
+
+    changeCoin(90);  // Default to Bitcoin on load
 </script>
 </body>
 </html>
